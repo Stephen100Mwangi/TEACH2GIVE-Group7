@@ -6,4 +6,3 @@ export interface Task {
     projectId: string;    // Foreign key to Project
     assignedToId: string; // Foreign key to User
 }
-

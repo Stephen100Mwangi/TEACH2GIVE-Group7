@@ -112,7 +112,7 @@ createTask.get("/:taskId", async (req: Request, res: Response): Promise<void> =>
 });
 
 // Update Task by ID
-createTask.put("/:taskId", adminOnly, authenticateToken, async (req: Request, res: Response): Promise<void> => {
+createTask.patch("/:taskId", adminOnly, authenticateToken, async (req: Request, res: Response): Promise<void> => {
     const { taskId } = req.params;
     const { description, status, dueDate } = req.body;
 
@@ -136,6 +136,7 @@ createTask.put("/:taskId", adminOnly, authenticateToken, async (req: Request, re
         res.status(200).json({ message: "Task updated successfully!", data: result.records[0] });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
+        return;
     }
 });
 

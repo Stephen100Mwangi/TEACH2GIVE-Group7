@@ -9,7 +9,7 @@ export const adminOnly = (req: Request, res: Response, next: NextFunction): any 
 
         // If no token is provided, deny access
         if (!token || token === 'null') {
-            res.status(401).json({ message: 'No token provided, access denied' });
+            return res.status(401).json({ message: 'No token provided, access denied' });
         }
 
         // Ensure that JWT_SECRET is defined
@@ -18,14 +18,14 @@ export const adminOnly = (req: Request, res: Response, next: NextFunction): any 
             return res.status(500).json({ message: 'JWT Secret not configured' });
         }
 
-        // Verify the token, ensuring that token is a string
+        // Verify the token
         const decodedToken = jwt.verify(token as string, secret);
 
         // Extract the user's role from the decoded token
         const { role } = decodedToken as { id: string; role: string[] };
 
-        // Check if the user's role includes 'admin'
-        if (!role.includes('Admin')) {
+        // Check if the user's role includes 'Admin'
+        if (!role || !role.includes('Admin')) {
             return res.status(403).json({ message: 'Access denied. Admins only' });
         }
 
